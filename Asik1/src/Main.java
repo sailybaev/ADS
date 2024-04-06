@@ -142,7 +142,7 @@ public class Main {
     }
 
 
-    public static int binomiamCoeffficient(int n ,  int k) { //complexity O(n)
+    public static int binomiamCoeffficient(int n ,  int k) { //complexity O(2^n)
         if(k == 0 || k == n){
             return 1;
         }
@@ -150,16 +150,13 @@ public class Main {
         return binomiamCoeffficient(n-1, k-1) + binomiamCoeffficient(n-1, k);
     }
 
-    public static int GCDrec(int n , int m) { //complexity O(log(n))
+    public static int GCDrec(int n , int m) {
         if(m == 0){
             return n;
         }
 
         return GCDrec(m, n % m);
     }
-
-
-
 
 
     public static void task1() {
