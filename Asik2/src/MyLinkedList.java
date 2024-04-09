@@ -1,5 +1,7 @@
 import java.util.Iterator;
-public class MyLinkedList implements MyList{
+import java.util.NoSuchElementException;
+
+public class MyLinkedList<T> implements MyList<T>{
 
     class MyNode<E> {
         E element;
@@ -38,13 +40,16 @@ public class MyLinkedList implements MyList{
 
 
 
+
+
     @Override
     public void add(Object item) {
         MyNode newNode = new MyNode(item);
         if (head == null) {
             head = newNode;
             tail = newNode;
-        } else {
+        }
+        else {
             tail.next = newNode;
             newNode.prev = tail;
             tail = newNode;
@@ -53,7 +58,7 @@ public class MyLinkedList implements MyList{
     }
 
     @Override
-    public void set(int index, Object item) {
+    public void set(int index, T item) {
         if (index < 0 || index >= size) {
             throw new IndexOutOfBoundsException("Index: " + index + ", Size: " + size);
         }
@@ -65,7 +70,7 @@ public class MyLinkedList implements MyList{
     }
 
     @Override
-    public void add(int index, Object item) {
+    public void add(int index, T item) {
         if (index < 0 || index > size) {
             throw new IndexOutOfBoundsException("Index: " + index + ", Size: " + size);
         }
@@ -94,17 +99,17 @@ public class MyLinkedList implements MyList{
     }
 
     @Override
-    public void addFirst(Object item) {
+    public void addFirst(T item) {
         add(0, item);
     }
 
     @Override
-    public void addLast(Object item) {
+    public void addLast(T item) {
         add(item);
     }
 
     @Override
-    public Object get(int index) {
+    public T get(int index) {
         if (index < 0 || index >= size) {
             throw new IndexOutOfBoundsException("Index: " + index + ", Size: " + size);
         }
@@ -112,17 +117,17 @@ public class MyLinkedList implements MyList{
         for (int i = 0; i < index; i++) {
             current = current.next;
         }
-        return current.element;
+        return (T) current.element;
     }
 
     @Override
-    public Object getFirst() {
-        return head.element;
+    public T getFirst() {
+        return (T) head.element;
     }
 
     @Override
-    public Object getLast() {
-        return tail.element;
+    public T getLast() {
+        return (T) tail.element;
     }
 
     @Override
@@ -226,21 +231,28 @@ public class MyLinkedList implements MyList{
 
     @Override
     public Iterator iterator() {
-        return new Iterator() {
-            private MyNode current = head;
+        return new MyIterator();
+    }
 
-            @Override
-            public boolean hasNext() {
-                return current != null;
-            }
+    public class MyIterator implements Iterator<T> {
+        private MyNode current = head;
+        private int index = 0;
 
-            @Override
-            public Object next() {
-                Object element = current.element;
-                current = current.next;
-                return element;
+        @Override
+        public boolean hasNext() {
+            return index < size;
+        }
+
+        @Override
+        public T next() {
+            if (hasNext() != true) {
+                throw new NoSuchElementException();
             }
-        };
+            T element = (T) current.element;
+            current = current.next;
+            index++;
+            return element;
+        }
     }
 
 }
