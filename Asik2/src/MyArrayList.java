@@ -1,6 +1,6 @@
 import java.util.Iterator;
 
-public class MyArrayList implements MyList {
+public class MyArrayList<T> implements MyList<T>{
 
     private Object[] arr;
     private int length = 0;
@@ -26,7 +26,7 @@ public class MyArrayList implements MyList {
 
 
     @Override
-    public void add(Object item) {
+    public void add(T item) {
         if (length == arr.length) {
             increaseCapacity();
         }
@@ -34,12 +34,15 @@ public class MyArrayList implements MyList {
     }
 
     @Override
-    public void set(int index, Object item) {
+    public void set(int index, T item) {
+        if (index < 0 || index >= length) {
+            throw new IndexOutOfBoundsException("Index: " + index + ", Size: " + length);
+        }
         arr[index] = item;
     }
 
     @Override
-    public void add(int index, Object item) {
+    public void add(int index, T item) {
         if (index < 0 || index > length) {
             throw new IndexOutOfBoundsException("Index: " + index + ", Size: " + length);
         }
@@ -52,28 +55,37 @@ public class MyArrayList implements MyList {
     }
 
     @Override
-    public void addFirst(Object item) {
+    public void addFirst(T item) {
         add(0, item);
     }
 
     @Override
-    public void addLast(Object item) {
+    public void addLast(T item) {
         add(item);
     }
 
     @Override
-    public Object get(int index) {
-        return arr[index];
+    public T get(int index) {
+        if (index < 0 || index >= length) {
+            throw new IndexOutOfBoundsException("Index: " + index + ", Size: " + length);
+        }
+        return (T) arr[index];
     }
 
     @Override
-    public Object getFirst() {
-        return arr[0];
+    public T getFirst() {
+        if(length == 0){
+            throw new IndexOutOfBoundsException("List is empty");
+        }
+        return (T) arr[0];
     }
 
     @Override
-    public Object getLast() {
-        return arr[length - 1];
+    public T getLast() {
+        if(length == 0) {
+            throw new IndexOutOfBoundsException("List is empty");
+        }
+        return (T) arr[length - 1];
     }
 
     @Override
@@ -81,6 +93,7 @@ public class MyArrayList implements MyList {
         if (index < 0 || index >= length) {
             throw new IndexOutOfBoundsException("Index: " + index + ", Size: " + length);
         }
+
         int numMoved = length - index - 1;
         if (numMoved > 0) {
             System.arraycopy(arr, index + 1, arr, index, numMoved);
@@ -154,21 +167,23 @@ public class MyArrayList implements MyList {
         return length;
     }
 
+
     @Override
     public Iterator iterator() {
+        return new MyIterator();
+    }
 
-        return new Iterator() {
-            private int index = 0;
-            @Override
-            public boolean hasNext() {
-                return index < length;
-            }
+    public class MyIterator implements Iterator<T> {
+        private int index = 0;
 
-            @Override
-            public Object next() {
-                return arr[index++];
-            }
-        };
+        @Override
+        public boolean hasNext() {
+            return index < length;
+        }
 
+        @Override
+        public T next() {
+            return (T) arr[index++];
+        }
     }
 }
