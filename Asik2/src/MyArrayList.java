@@ -1,6 +1,6 @@
 import java.util.Iterator;
 
-public class MyArrayList<T> implements MyList<T>{
+public class MyArrayList<T extends  Comparable<T>> implements MyList<T>{
 
     private Object[] arr; // The array buffer into which the elements of the MyArrayList are stored.
     private int length = 0; // The number of elements in the MyArrayList.
@@ -29,7 +29,7 @@ public class MyArrayList<T> implements MyList<T>{
     private void checkCap(int index) {
         if(index < 0|| index >= length)
             throw new IndexOutOfBoundsException("Index: " + index + ", Size: " + length);
-    }
+    } // Checks if the given index is in the range of the list.
 
     @Override
     public void add(T item) {
@@ -113,7 +113,7 @@ public class MyArrayList<T> implements MyList<T>{
     public void sort() {
         for (int i = 0; i < length; i++) {
             for (int j = i + 1; j < length; j++) {
-                if ((int) arr[i] > (int) arr[j]) {
+                if (((Comparable)arr[i]).compareTo(arr[j]) > 0) {
                     Object temp = arr[i];
                     arr[i] = arr[j];
                     arr[j] = temp;

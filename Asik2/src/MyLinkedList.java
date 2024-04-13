@@ -40,7 +40,10 @@ public class MyLinkedList<T> implements MyList<T>{
 
 
 
-
+    private void checkCap(int index) {
+        if(index < 0|| index >= size)
+            throw new IndexOutOfBoundsException("Index: " + index + ", Size: " + size);
+    } // Checks if the given index is in the range of the list.
 
     @Override
     public void add(T item) {
@@ -59,9 +62,7 @@ public class MyLinkedList<T> implements MyList<T>{
 
     @Override
     public void set(int index, T item) {
-        if (index < 0 || index >= size) {
-            throw new IndexOutOfBoundsException("Index: " + index + ", Size: " + size);
-        }
+        checkCap(index);
         MyNode current = head;
         for (int i = 0; i < index; i++) {
             current = current.next;
@@ -71,9 +72,7 @@ public class MyLinkedList<T> implements MyList<T>{
 
     @Override
     public void add(int index, T item) {
-        if (index < 0 || index > size) {
-            throw new IndexOutOfBoundsException("Index: " + index + ", Size: " + size);
-        }
+        checkCap(index);
         MyNode newNode = new MyNode(item);
         if (index == 0) {
             newNode.next = head;
@@ -110,9 +109,7 @@ public class MyLinkedList<T> implements MyList<T>{
 
     @Override
     public T get(int index) {
-        if (index < 0 || index >= size) {
-            throw new IndexOutOfBoundsException("Index: " + index + ", Size: " + size);
-        }
+        checkCap(index);
         MyNode current = head;
         for (int i = 0; i < index; i++) {
             current = current.next;
@@ -132,9 +129,7 @@ public class MyLinkedList<T> implements MyList<T>{
 
     @Override
     public void remove(int index) {
-        if (index < 0 || index >= size) {
-            throw new IndexOutOfBoundsException("Index: " + index + ", Size: " + size);
-        }
+        checkCap(index);
         if (index == 0) {
             head = head.next;
             head.prev = null;
@@ -168,7 +163,7 @@ public class MyLinkedList<T> implements MyList<T>{
     public void sort() {
         for (MyNode i = head; i != null; i = i.next) {
             for (MyNode j = i.next; j != null; j = j.next) {
-                if ((int) i.element > (int) j.element) {
+                if (((Comparable)j.element).compareTo(i.element) < 0) {
                     Object current = i.element;
                     i.element = j.element;
                     j.element = current;
