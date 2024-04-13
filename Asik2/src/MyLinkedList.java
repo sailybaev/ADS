@@ -43,7 +43,7 @@ public class MyLinkedList<T> implements MyList<T>{
 
 
     @Override
-    public void add(Object item) {
+    public void add(T item) {
         MyNode newNode = new MyNode(item);
         if (head == null) {
             head = newNode;

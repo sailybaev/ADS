@@ -15,6 +15,7 @@ public class MyArrayList<T> implements MyList<T>{
 
     public MyArrayList() {
         this(DEFAULT_CAPACITY);
+        length = 0;
     } // Constructs an empty list with an initial capacity of ten.
 
 
@@ -24,6 +25,11 @@ public class MyArrayList<T> implements MyList<T>{
         arr = temp;
     }// Increases the capacity of this MyArrayList instance, if necessary, to ensure that it can hold at least the number of elements specified by the minimum capacity argument.
 
+
+    private void checkCap(int index) {
+        if(index < 0|| index >= length)
+            throw new IndexOutOfBoundsException("Index: " + index + ", Size: " + length);
+    }
 
     @Override
     public void add(T item) {
@@ -35,17 +41,13 @@ public class MyArrayList<T> implements MyList<T>{
 
     @Override
     public void set(int index, T item) {
-        if (index < 0 || index >= length) {
-            throw new IndexOutOfBoundsException("Index: " + index + ", Size: " + length);
-        }
+        checkCap(index);
         arr[index] = item;
     } // Replaces the element at the specified position in this list with the specified element.
 
     @Override
     public void add(int index, T item) {
-        if (index < 0 || index > length) {
-            throw new IndexOutOfBoundsException("Index: " + index + ", Size: " + length);
-        }
+        checkCap(index);
         if (length == arr.length) {
             increaseCapacity();
         }
@@ -66,9 +68,7 @@ public class MyArrayList<T> implements MyList<T>{
 
     @Override
     public T get(int index) {
-        if (index < 0 || index >= length) {
-            throw new IndexOutOfBoundsException("Index: " + index + ", Size: " + length);
-        }
+        checkCap(index);
         return (T) arr[index];
     } // Returns the element at the specified position in this list.
 
@@ -90,9 +90,7 @@ public class MyArrayList<T> implements MyList<T>{
 
     @Override
     public void remove(int index) {
-        if (index < 0 || index >= length) {
-            throw new IndexOutOfBoundsException("Index: " + index + ", Size: " + length);
-        }
+        checkCap(index);
 
         int numMoved = length - index - 1;
         if (numMoved > 0) {
