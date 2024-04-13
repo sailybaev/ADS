@@ -112,10 +112,10 @@ public class MyArrayList<T extends  Comparable<T>> implements MyList<T>{
     @Override
     public void sort() {
         for (int i = 0; i < length; i++) {
-            for (int j = i + 1; j < length; j++) {
-                if (((Comparable)arr[i]).compareTo(arr[j]) > 0) {
-                    Object temp = arr[i];
-                    arr[i] = arr[j];
+            for (int j = i + 1; j < length-1-i; j++) {
+                if (((Comparable)arr[j]).compareTo(arr[j+1]) > 0) {
+                    Object temp = arr[j+1];
+                    arr[j+1] = arr[j];
                     arr[j] = temp;
                 }
             }
