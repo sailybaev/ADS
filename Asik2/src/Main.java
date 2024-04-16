@@ -1,8 +1,8 @@
 public class Main {
     public static void main(String[] args) {
 
-       // MyArrayList<Integer> myList = new MyArrayList<>();
-        MyLinkedList<Integer> myList = new MyLinkedList<>();
+        MyArrayList<Integer> myList = new MyArrayList<>();
+        //MyLinkedList<Integer> myList = new MyLinkedList<>();
 
         myList.add(1);
         myList.add(2);
@@ -43,6 +43,7 @@ public class Main {
         printArray(myList);
 
 
+        System.out.println("Check sort");
         myList.sort();
         printArray(myList);
 
