@@ -42,9 +42,7 @@ public class MyHeap <T extends Comparable<T>>  {
             largest = right;
         }
         if (largest != i) {
-            T temp = heap.get(i);
-            heap.set(i, heap.get(largest));
-            heap.set(largest, temp);
+            swap(i, largest);
             heapify(largest);
         }
     }
