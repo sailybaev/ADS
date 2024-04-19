@@ -19,7 +19,7 @@ public class MyHeap <T extends Comparable<T>>  {
 
     public T extractMax() { // gets max and swaps with last element then removes last element
         T max = heap.get(0);
-        heap.set(0, heap.get(heap.size() - 1));
+        swap(0, heap.size() - 1);
         heap.remove(heap.size() - 1);
         heapify(0);
         return max;
@@ -28,13 +28,7 @@ public class MyHeap <T extends Comparable<T>>  {
     public void insert(T item) { // inserts item to the end of the heap and puts it to the respective place
         heap.add(item);
         int i = heap.size() - 1;
-        while (i > 0 && heap.get(i).compareTo(heap.get(parentOf(i))) > 0) {
-            T temp = heap.get(i);
-            heap.set(i, heap.get(parentOf(i)));
-            heap.set(parentOf(i), temp);
-            i = parentOf(i);
-        }
-
+        heapify(i);
     }
 
     private void heapify(int i) { // heapify function to maintain the heap property after deletion or insertion
