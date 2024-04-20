@@ -56,15 +56,15 @@ public class MyHeap <T extends Comparable<T>>  {
     }
 
     public int leftChildOf(int i) {
-        return 2 * i + 1;
+        return 2 * i;
     } // returns left child though math
 
     public int rightChildOf(int i) {
-        return 2 * i + 2;
+        return 2 * i+1;
     } // returns right child through math
 
     public int parentOf(int i) {
-        return (i - 1) / 2;
+        return i / 2;
     } // returns parent through math
 
     public void swap(int i, int j) { // swaps two elements

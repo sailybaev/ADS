@@ -172,6 +172,9 @@ public class MyLinkedList<T> implements MyList<T>{
         }
     } // Sorts the elements of this list in ascending order
 
+
+
+
     @Override
     public int indexOf(Object object) {
         MyNode current = head;
