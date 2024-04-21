@@ -35,10 +35,10 @@ public class MyHeap <T extends Comparable<T>>  {
         int left = leftChildOf(i);
         int right = rightChildOf(i);
         int largest = i;
-        if (left < heap.size() && heap.get(left).compareTo(heap.get(largest)) > 0) {
+        if (left < heap.size() && heap.get(left).compareTo(heap.get(largest)) < 0) {
             largest = left;
         }
-        if (right < heap.size() && heap.get(right).compareTo(heap.get(largest)) > 0) {
+        if (right < heap.size() && heap.get(right).compareTo(heap.get(largest)) < 0) {
             largest = right;
         }
         if (largest != i) {
