@@ -28,7 +28,18 @@ public class MyHeap <T extends Comparable<T>>  {
     public void insert(T item) { // inserts item to the end of the heap and puts it to the respective place
         heap.add(item);
         int i = heap.size() - 1;
-        heapify(i);
+        upheap(i);
+    }
+
+    private void upheap(int index) {
+        if(index == 0) {
+            return;
+        }
+        int p = parentOf(index);
+        if(heap.get(index).compareTo(heap.get(p)) > 0) {
+            swap(index, p);
+            upheap(p);
+        }
     }
 
     private void heapify(int i) { // heapify function to maintain the heap property after deletion or insertion
@@ -64,7 +75,7 @@ public class MyHeap <T extends Comparable<T>>  {
     } // returns right child through math
 
     public int parentOf(int i) {
-        return i-1 / 2;
+        return (i-1 )/ 2;
     } // returns parent through math
 
     public void swap(int i, int j) { // swaps two elements
@@ -80,15 +91,7 @@ public class MyHeap <T extends Comparable<T>>  {
         System.out.println();
     }
 
-    public static void main(String[] args) {
-        MyHeap<Integer> heap = new MyHeap<>();
-        heap.insert(6);
-        heap.insert(5);
-        heap.insert(2);
-        heap.insert(3);
-        heap.insert(4);
-        printArray(heap.heap);
-    }
+
 
 
 
