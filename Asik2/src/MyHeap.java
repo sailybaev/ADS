@@ -35,10 +35,10 @@ public class MyHeap <T extends Comparable<T>>  {
         int left = leftChildOf(i);
         int right = rightChildOf(i);
         int largest = i;
-        if (left < heap.size() && heap.get(left).compareTo(heap.get(largest)) < 0) {
+        if (left < heap.size() && heap.get(left).compareTo(heap.get(largest)) > 0) {
             largest = left;
         }
-        if (right < heap.size() && heap.get(right).compareTo(heap.get(largest)) < 0) {
+        if (right < heap.size() && heap.get(right).compareTo(heap.get(largest)) > 0) {
             largest = right;
         }
         if (largest != i) {
@@ -56,15 +56,15 @@ public class MyHeap <T extends Comparable<T>>  {
     }
 
     public int leftChildOf(int i) {
-        return 2 * i;
+        return (2 * i)+1;
     } // returns left child though math
 
     public int rightChildOf(int i) {
-        return 2 * i+1;
+        return (2 * i)+2;
     } // returns right child through math
 
     public int parentOf(int i) {
-        return i / 2;
+        return i-1 / 2;
     } // returns parent through math
 
     public void swap(int i, int j) { // swaps two elements
@@ -73,6 +73,22 @@ public class MyHeap <T extends Comparable<T>>  {
         heap.set(j, temp);
     }
 
+    public static void printArray(MyArrayList<Integer> arr) {
+        for (int i = 0; i < arr.size(); i++) {
+            System.out.print(arr.get(i) + " ");
+        }
+        System.out.println();
+    }
+
+    public static void main(String[] args) {
+        MyHeap<Integer> heap = new MyHeap<>();
+        heap.insert(6);
+        heap.insert(5);
+        heap.insert(2);
+        heap.insert(3);
+        heap.insert(4);
+        printArray(heap.heap);
+    }
 
 
 
