@@ -88,6 +88,9 @@ public class MyArrayList<T extends  Comparable<T>> implements MyList<T>{
         return (T) arr[length - 1];
     } // Returns the last element in this list.
 
+
+
+
     @Override
     public void remove(int index) {
         checkCap(index);

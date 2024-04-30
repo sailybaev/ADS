@@ -1,12 +1,14 @@
 public class Main {
     public static void main(String[] args) {
 
-        MyArrayList<Integer> myList = new MyArrayList<>();
+        MyLinkedList<Integer> myList = new MyLinkedList<>();
         //MyLinkedList<Integer> myList = new MyLinkedList<>();
 
         myList.add(1);
         myList.add(2);
         myList.add(3);
+
+
         printArray(myList);
 
         myList.set(1, 20);
@@ -63,7 +65,9 @@ public class Main {
 
         System.out.println(myList.size());
     }
-    
+
+
+
     public static void printArray(Iterable<Integer> arr) {
         for (Object object : arr) {
             System.out.print(object + " ");

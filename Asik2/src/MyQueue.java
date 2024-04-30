@@ -13,6 +13,7 @@ public class MyQueue<T extends Comparable<T>> {
         queue.remove(0);
         return item;
     }
+
     public void enqueue(T item) {
         queue.add(item);
     } // adds elements to the first of the queue

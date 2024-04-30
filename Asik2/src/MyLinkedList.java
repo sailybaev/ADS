@@ -63,11 +63,11 @@ public class MyLinkedList<T> implements MyList<T>{
     @Override
     public void set(int index, T item) {
         checkCap(index);
-        MyNode current = head;
+        MyNode temp = head;
         for (int i = 0; i < index; i++) {
-            current = current.next;
+            temp = temp.next;
         }
-        current.element = item;
+        temp.element = item;
     } // Replaces the element at the specified position in this list with the specified element
 
     @Override
@@ -84,15 +84,16 @@ public class MyLinkedList<T> implements MyList<T>{
             newNode.prev = tail;
             tail = newNode;
         }
+        
         else {
-            MyNode current = head;
+            MyNode temp = head;
             for (int i = 0; i < index - 1; i++) {
-                current = current.next;
+                temp = temp.next;
             }
-            newNode.next = current.next;
-            newNode.prev = current;
-            current.next.prev = newNode;
-            current.next = newNode;
+            newNode.next = temp.next;
+            newNode.prev = temp;
+            temp.next.prev = newNode;
+            temp.next = newNode;
         }
         size++;
     } // Inserts the specified element at the specified position in this list
@@ -110,11 +111,11 @@ public class MyLinkedList<T> implements MyList<T>{
     @Override
     public T get(int index) {
         checkCap(index);
-        MyNode current = head;
+        MyNode temp = head;
         for (int i = 0; i < index; i++) {
-            current = current.next;
+            temp = temp.next;
         }
-        return (T) current.element;
+        return (T) temp.element;
     } // Returns the element at the specified position in this list
 
     @Override
@@ -139,12 +140,12 @@ public class MyLinkedList<T> implements MyList<T>{
             tail.next = null;
         }
         else {
-            MyNode current = head;
+            MyNode temp = head;
             for (int i = 0; i < index; i++) {
-                current = current.next;
+                temp = temp.next;
             }
-            current.prev.next = current.next;
-            current.next.prev = current.prev;
+            temp.prev.next = temp.next;
+            temp.next.prev = temp.prev;
         }
         size--;
     } // Removes the element at the specified position in this list
@@ -164,9 +165,9 @@ public class MyLinkedList<T> implements MyList<T>{
         for (MyNode i = head; i != null; i = i.next) {
             for (MyNode j = i.next; j != null; j = j.next) {
                 if (((Comparable)j.element).compareTo(i.element) < 0) {
-                    Object current = i.element;
+                    Object temp = i.element;
                     i.element = j.element;
-                    j.element = current;
+                    j.element = temp;
                 }
             }
         }
@@ -177,24 +178,24 @@ public class MyLinkedList<T> implements MyList<T>{
 
     @Override
     public int indexOf(Object object) {
-        MyNode current = head;
+        MyNode temp = head;
         for (int i = 0; i < size; i++) {
-            if (current.element.equals(object)) {
+            if (temp.element.equals(object)) {
                 return i;
             }
-            current = current.next;
+            temp = temp.next;
         }
         return -1;
     } // Returns the index of the first occurrence of the specified element in this list, or -1 if this list does not contain the element
 
     @Override
     public int lastIndexOf(Object object) {
-        MyNode current = tail;
+        MyNode temp = tail;
         for (int i = size - 1; i >= 0; i--) {
-            if (current.element.equals(object)) {
+            if (temp.element.equals(object)) {
                 return i;
             }
-            current = current.prev;
+            temp = temp.prev;
         }
         return -1;
     } // Returns the index of the last occurrence of the specified element in this list, or -1 if this list does not contain the element
@@ -207,10 +208,10 @@ public class MyLinkedList<T> implements MyList<T>{
     @Override
     public Object[] toArray() {
         Object[] arr = new Object[size];
-        MyNode current = head;
+        MyNode temp = head;
         for (int i = 0; i < size; i++) {
-            arr[i] = current.element;
-            current = current.next;
+            arr[i] = temp.element;
+            temp = temp.next;
         }
         return arr;
     } // Returns an array containing all of the elements in this list in proper sequence
@@ -233,7 +234,7 @@ public class MyLinkedList<T> implements MyList<T>{
     } // Returns an iterator over the elements in this list in proper sequence
 
     public class MyIterator implements Iterator<T> {
-        private MyNode current = head;
+        private MyNode temp = head;
         private int index = 0;
 
         @Override
@@ -246,8 +247,8 @@ public class MyLinkedList<T> implements MyList<T>{
             if (hasNext() != true) {
                 throw new NoSuchElementException();
             }
-            T element = (T) current.element;
-            current = current.next;
+            T element = (T) temp.element;
+            temp = temp.next;
             index++;
             return element;
         }
