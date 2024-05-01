@@ -41,7 +41,7 @@ public class MyHashTable <K , V>{
             if(temp[i] != null) {
                 HashNode<K , V> node = temp[i];
                 while(node != null) {
-                    put(node.key , node.value);
+                    rehashPut(node.key , node.value);
                     node = node.next;
                 }
             }
@@ -57,6 +57,12 @@ public class MyHashTable <K , V>{
         newNode.next = buckets[index];
         buckets[index] = newNode;
         size++;
+    }
+    public void rehashPut(K key , V value) {
+        int index = hash(key);
+        HashNode<K , V> newNode = new HashNode<>(key , value);
+        newNode.next = buckets[index];
+        buckets[index] = newNode;
     }
 
     public V get(K key) {
