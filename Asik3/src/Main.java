@@ -14,6 +14,8 @@ public class Main {
         for(int i =0;i<table.getM();i++) {
             System.out.println(table.countElements(i));
         }
+
+        System.out.println(table.getM());
     }
     public static String generateRandomString(int length) {
         String characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";

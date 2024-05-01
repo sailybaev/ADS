@@ -1,9 +1,10 @@
 public class MyHashTable <K , V>{
 
-    private HashNode<? , ?>[] buckets;
+    private HashNode<K , V>[] buckets;
     private int M = 11;
     private Double loadFactor = 0.75;
     private int size = 0;
+
     public MyHashTable(){
         this.buckets = new HashNode[M];
     }
@@ -19,13 +20,14 @@ public class MyHashTable <K , V>{
 
     public int countElements(int index){
         int count = 0;
-        HashNode<?,?> temp = buckets[index];
+        HashNode<K, V> temp = buckets[index];
         while(temp != null){
             count++;
             temp = temp.next;
         }
         return count;
     }
+
     private int hash(K key) {
         int index = (key.hashCode() & 0x7fffffff) % M;
         return index ;
@@ -33,13 +35,13 @@ public class MyHashTable <K , V>{
 
     public void increaseCapacity() {
         M = M * 2;
-        HashNode<? , ?>[] temp = buckets;
+        HashNode<K , V>[] temp = buckets;
         buckets = new HashNode[M];
         for(int i = 0 ; i < temp.length ; i++) {
             if(temp[i] != null) {
-                HashNode<? , ?> node = temp[i];
+                HashNode<K , V> node = temp[i];
                 while(node != null) {
-                    put((K) node.key , (V) node.value);
+                    put(node.key , node.value);
                     node = node.next;
                 }
             }
@@ -52,38 +54,27 @@ public class MyHashTable <K , V>{
         }
         int index = hash(key);
         HashNode<K , V> newNode = new HashNode<>(key , value);
-        if(buckets[index] == null) {
-            buckets[index] = newNode;
-            size++;
-            return;
-        }
-        else {
-            HashNode<? , ?> temp = buckets[index];
-            while(temp.next != null) {
-                temp = temp.next;
-            }
-            temp.next = newNode;
-            size++;
-            return;
-        }
+        newNode.next = buckets[index];
+        buckets[index] = newNode;
+        size++;
     }
 
     public V get(K key) {
         int index = hash(key);
-        while(buckets[index] != null) {
-            if(buckets[index].key.equals(key)) {
-                return (V) buckets[index].value;
+        HashNode<K, V> node = buckets[index];
+        while(node != null) {
+            if(node.key.equals(key)) {
+                return node.value;
             }
-            buckets[index] = buckets[index].next;
+            node = node.next;
         }
-
         return null;
     }
 
     public V remove(K key) {
         int index = hash(key);
-        HashNode<?,?> temp = buckets[index];
-        HashNode<?,?> prev = null;
+        HashNode<K, V> temp = buckets[index];
+        HashNode<K, V> prev = null;
         while(temp != null) {
             if(temp.key.equals(key)) {
                 if(prev == null) {
@@ -92,33 +83,35 @@ public class MyHashTable <K , V>{
                 else {
                     prev.next = temp.next;
                 }
-                return (V) temp.value;
+                size--;
+                return temp.value;
             }
             prev = temp;
             temp = temp.next;
         }
-        size--;
         return null;
     }
 
     public boolean contains(K key) {
         int index = hash(key);
-
-        while(buckets[index] != null) {
-            if(buckets[index].key.equals(key)) {
+        HashNode<K, V> node = buckets[index];
+        while(node != null) {
+            if(node.key.equals(key)) {
                 return true;
             }
-            buckets[index] = buckets[index].next;
+            node = node.next;
         }
         return false;
     }
 
     public K getKey(V value) {
         for(int i = 0 ; i < M ; i++) {
-            if(buckets[i] != null) {
-                if(buckets[i].value.equals(value)) {
-                    return (K) buckets[i].key;
+            HashNode<K, V> node = buckets[i];
+            while(node != null) {
+                if(node.value.equals(value)) {
+                    return node.key;
                 }
+                node = node.next;
             }
         }
         return null;
@@ -127,19 +120,20 @@ public class MyHashTable <K , V>{
     public int size(){
         return size;
     }
+
     public class HashNode<K, V> {
         K key;
         V value;
-        HashNode<?, ?> next;
+        HashNode<K, V> next;
 
         public HashNode(K key, V value) {
             this.key = key;
             this.value = value;
         }
+
         @Override
-         public String toString() {
+        public String toString() {
             return "{" + key + " : " + value + "}";
         }
     }
-
 }
