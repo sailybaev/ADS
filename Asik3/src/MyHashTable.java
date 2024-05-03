@@ -33,7 +33,7 @@ public class MyHashTable <K , V>{
         return index ;
     }
 
-    public void increaseCapacity() {
+    private void increaseCapacity() {
         M = M * 2;
         HashNode<K , V>[] temp = buckets;
         buckets = new HashNode[M];
@@ -99,15 +99,7 @@ public class MyHashTable <K , V>{
     }
 
     public boolean contains(K key) {
-        int index = hash(key);
-        HashNode<K, V> node = buckets[index];
-        while(node != null) {
-            if(node.key.equals(key)) {
-                return true;
-            }
-            node = node.next;
-        }
-        return false;
+        return get(key) != null ;
     }
 
     public K getKey(V value) {
