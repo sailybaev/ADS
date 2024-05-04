@@ -27,13 +27,16 @@ public class BST<K extends Comparable<K> , V> implements Iterable<K> {
             size++;
             return new Node(key , value);
         }
-        if(key.compareTo(node.key) < 0) node.left = put(node.left , key , value);
+        while(node != null) {
+            if(key.compareTo(node.key) < 0) node.left = put(node.left , key , value);
 
-        else if(key.compareTo(node.key) > 0) node.right = put(node.right , key , value);
+            else if(key.compareTo(node.key) > 0) node.right = put(node.right , key , value);
 
-        else node.value = value;
+            else node.value = value;
 
-        return node;
+            return node;
+        }
+        return null;
     }
 
     public V get(K key) {
@@ -43,12 +46,16 @@ public class BST<K extends Comparable<K> , V> implements Iterable<K> {
 
         if(node == null) return null;
 
-        if(key.compareTo(node.key) < 0) return get(node.left , key);
+        while(node != null) {
 
-        else if(key.compareTo(node.key) > 0) return get(node.right , key);
+            if(key.compareTo(node.key) < 0) node = node.left;
 
-        else return node.value;
+            else if(key.compareTo(node.key) > 0) node = node.right;
 
+            else return node.value;
+
+        }
+        return null;
     }
 
     public void delete(K key) {
@@ -58,32 +65,36 @@ public class BST<K extends Comparable<K> , V> implements Iterable<K> {
     private Node delete(Node node , K key) {
         if(node == null) return null;
 
-        if(key.compareTo(node.key) < 0) node.left = delete(node.left , key);
+        while(node != null) {
+            if(key.compareTo(node.key) < 0) node.left = delete(node.left , key);
 
-        else if(key.compareTo(node.key) > 0) node.right = delete(node.right , key);
+            else if(key.compareTo(node.key) > 0) node.right = delete(node.right , key);
 
-        else {
-            if(node.right == null) return node.left;
-            if(node.left == null) return node.right;
-
-            Node temp = node;
-            node = min(temp.right);
-            node.right = deleteMin(temp.right);
-            node.left = temp.left;
+            else {
+                if(node.right == null) return node.left;
+                if(node.left == null) return node.right;
+                Node temp = node;
+                node = min(temp.right);
+                node.right = deleteMin(temp.right);
+                node.left = temp.left;
+            }
+            return node;
         }
-
-        return node;
+        return null;
     }
 
     private Node min(Node node) {
-        if(node.left == null) return node;
-        return min(node.left);
+        while (node.left != null) {
+            node = node.left;
+        }
+        return node;
     }
 
     private Node deleteMin(Node node) {
-        if(node.left == null) return node.right;
-        node.left = deleteMin(node.left);
-        return node;
+        while (node.left != null) {
+            node = node.left;
+        }
+        return node.right;
     }
 
     public int size() {
