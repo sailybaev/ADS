@@ -41,8 +41,7 @@ public class Main {
             System.out.println(key + " " + bst.get(key));
         }
 
-
-
+        System.out.println(bst.length(80));
     }
     public static String generateRandomString(int length) {
         String characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
