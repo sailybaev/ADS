@@ -12,10 +12,6 @@ public class BST<K extends Comparable<K> , V> implements Iterable<K> {
         }
     }
 
-    public int getLength(Node nodel) {
-        return nodel.length;
-    }
-
     public BST() {
         root = null;
         size = 0;
@@ -26,6 +22,7 @@ public class BST<K extends Comparable<K> , V> implements Iterable<K> {
     public void put(K key, V value) {
         if (root == null) {
             root = new Node(key, value);
+            root.length = 1;
             size++;
             return;
         }
@@ -36,11 +33,13 @@ public class BST<K extends Comparable<K> , V> implements Iterable<K> {
         while (true) {
             if (key.compareTo(current.key) < 0) {
 
-                if (current.left != null) current = current.left;
+                if (current.left != null) 
+                    current = current.left;
 
                 else {
                     current.left = new Node(key, value);
                     size++;
+                    current.length = 1 + (current.right == null ? 0 : current.right.length) + (current.left == null ? 0 : current.left.length);
                     return;
                 }
 
@@ -48,18 +47,19 @@ public class BST<K extends Comparable<K> , V> implements Iterable<K> {
 
             else if (key.compareTo(current.key) > 0) {
 
-                if (current.right != null) current = current.right;
+                if (current.right != null) 
+                    current = current.right;
 
                 else {
                     current.right = new Node(key, value);
                     size++;
+                    current.length = 1 + (current.right == null ? 0 : current.right.length) + (current.left == null ? 0 : current.left.length);
                     return;
                 }
             }
 
             else {
                 current.value = value;
-                current.length--;
                 return;
             }
 
@@ -90,58 +90,101 @@ public class BST<K extends Comparable<K> , V> implements Iterable<K> {
     }
 
     public void delete(K key) {
+
         if (root == null) return;
 
-        Node par = null;
         Node current = root;
-        boolean chl = false;
+        Node parent = null;
+        Node temp = null;
+        boolean ch = false;
 
-        while (current != null) {
-            current.length--;
+        while (current != null && current.key.equals(key) != true) {
+            parent = current;
             if (key.compareTo(current.key) < 0) {
-                par = current;
                 current = current.left;
-            }
-            else if (key.compareTo(current.key) > 0) {
-                par = current;
-                current = current.right;
-            }
-
+                ch = true;
+            } 
             else {
-                if (current.left != null && current.right != null) {
-                    chl = true;
-                    Node temp = current;
-                    par = current;
-                    current = current.right;
-
-                    while (current.left != null) {
-                        par = current;
-                        current = current.left;
-                    }
-
-                    temp.key = current.key;
-                    temp.value = current.value;
-                    current.length++;
-                }
-                break;
+                current = current.right;
+                ch = false;
             }
+        }
+
+        if (current == null) return; 
+
+        temp = current;
+
+        if (current.left == null) {
+            if (current == root)
+                root = current.right;
+
+            else if (ch == true)
+                parent.left = current.right;
+
+            else
+                parent.right = current.right;
+        }
+
+        else if (current.right == null) {
+            if (current == root)
+                root = current.left;
+
+            else if (ch == true)
+                parent.left = current.left;
+
+            else
+                parent.right = current.left;
 
         }
 
-        if (current == null) return;
+
+        else {
+            
+            Node a = current.right;
+            Node ap = current;
+            while (a.left != null) {
+                ap = a;
+                a = a.left;
+            }
+
+            if (ap != current) {
+                ap.left = a.right;
+                a.right = current.right;
+            }
+
+            if (current == root)
+                root = a;
+
+            else if (ch == true)
+                parent.left = a;
+
+            else
+                parent.right = a;
 
 
-        Node a;
-        if (current.left != null) a = current.left;
-        else if (current.right != null) a = current.right;
-        else a = null;
+            a.left = current.left;
+        }
 
-        if (par == null) root = a;
-        else if (par.left == current) par.left = a;
-        else par.right = a;
+        size--;
 
-        if (!chl) size--;
+        while (parent != null) {
+            parent.length = 1 + size(parent.right) + size(parent.left);
+            parent = findParent(root, parent.key);
+        }
+    }
 
+    private Node findParent(Node node, K key) {
+        Node a = null;
+        while (node != null && node.key.equals(key) != true) {
+            a = node;
+            if (key.compareTo(node.key) < 0) 
+                node = node.left;
+            
+            else 
+                node = node.right;
+            
+        }
+        return a;
     }
 
     public Node getNode(K key) {
@@ -163,12 +206,16 @@ public class BST<K extends Comparable<K> , V> implements Iterable<K> {
         return null;
     }
 
-    public int size() {
-        return size;
+    public int size(Node node) {
+        return node == null ? 0 : node.length;
     }
 
     public boolean isEmpty() {
-        return size == 0;
+        return size(root) == 1;
+    }
+
+    public Node getRoot() {
+        return root;
     }
 
 

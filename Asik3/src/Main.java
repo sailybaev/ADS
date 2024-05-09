@@ -10,7 +10,7 @@ public class Main {
 
 //        table.put(new MyTestingClass("abc") , new Student("abc" , "def"));
 //
-//        for(int i =0;i<10000;i++) {
+//        for(int i =0;i<1000000000;i++) {
 //            table.put(new MyTestingClass(generateRandomString(5)) , new Student(generateRandomString(5) , generateRandomString(5)));
 //        }
 //
@@ -39,9 +39,11 @@ public class Main {
 
         for (Integer key : bst) {
             System.out.println(key + " " + bst.get(key));
+            System.out.println(bst.size(bst.getNode(key)));
         }
 
-        System.out.println(bst.length(80));
+        System.out.println(bst.size(bst.getRoot()));
+
     }
     public static String generateRandomString(int length) {
         String characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
