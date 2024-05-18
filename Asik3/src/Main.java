@@ -33,7 +33,7 @@ public class Main {
         System.out.println(bst.get(40));
         System.out.println(bst.get(60));
 
-        bst.delete(30);
+        bst.delete(20);
 
         System.out.println(bst.contains(30));
 

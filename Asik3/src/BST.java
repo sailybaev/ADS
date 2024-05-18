@@ -96,17 +96,17 @@ public class BST<K extends Comparable<K> , V> implements Iterable<K> {
         Node current = root;
         Node parent = null;
         Node temp = null;
-        boolean ch = false;
+        boolean lch = false;
 
-        while (current != null && current.key.equals(key) != true) {
+        while (current != null && key.equals(current.key) != true) {
             parent = current;
             if (key.compareTo(current.key) < 0) {
                 current = current.left;
-                ch = true;
+                lch = true;
             } 
             else {
                 current = current.right;
-                ch = false;
+                lch = false;
             }
         }
 
@@ -118,7 +118,7 @@ public class BST<K extends Comparable<K> , V> implements Iterable<K> {
             if (current == root)
                 root = current.right;
 
-            else if (ch == true)
+            else if (lch == true)
                 parent.left = current.right;
 
             else
@@ -126,10 +126,11 @@ public class BST<K extends Comparable<K> , V> implements Iterable<K> {
         }
 
         else if (current.right == null) {
+
             if (current == root)
                 root = current.left;
 
-            else if (ch == true)
+            else if (lch == true)
                 parent.left = current.left;
 
             else
@@ -155,7 +156,7 @@ public class BST<K extends Comparable<K> , V> implements Iterable<K> {
             if (current == root)
                 root = a;
 
-            else if (ch == true)
+            else if (lch == true)
                 parent.left = a;
 
             else
