@@ -64,17 +64,10 @@ public class WeightedGraph<V>{
         return mp.get(source).getAdjacentVertices().get(mp.get(dest));
     }
 
-    public Map<V, Vertex<V>> getMp() {
-        return mp;
-    }
-
     public Iterable<V> getAdjacentVertices(V data) {
         return mp.keySet();
     }
 
-    public Map<Vertex<V>, Double> adjacencyList(Vertex<V> vertex) {
-        return vertex.getAdjacentVertices();
-    }
 
 
 
