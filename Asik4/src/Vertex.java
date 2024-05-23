@@ -29,6 +29,10 @@ public class Vertex<V> {
         return mp;
     }
 
+    public Iterable<V> getAdjacentVerticesData() {
+        return mp.keySet().stream().map(Vertex::getData)::iterator;
+    }
+
 
 
     @Override

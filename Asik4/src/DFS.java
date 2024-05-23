@@ -7,7 +7,7 @@ public class DFS<V> extends Search<V>{
     private void dfs(MyGraph<V> graph, V source) {
         marked.add(source);
 
-        for (V v : graph.getAdjacentVertices(source)) {
+        for (V v : graph.getVertex(source).getAdjacentVerticesData()){
             if (marked.contains(v) == false) {
                 edgeTo.put(v, source);
                 dfs(graph, v);
