@@ -19,18 +19,18 @@ public class WeightedGraph<V>{
     }
 
     public void addEdge(V source, V dest, Double weight) {
-        if (mp.containsKey(source) == false) {
+        if (hasVertex(source) == false) {
             addVertex(source);
         }
 
-        if (mp.containsKey(dest) == false) {
+        if (hasVertex(dest) == false) {
             addVertex(dest);
         }
 
-        mp.get(source).addAdjacentVertex(mp.get(dest), weight);
+        getVertex(source).addAdjacentVertex(getVertex(dest), weight);
 
         if (directed == false) {
-            mp.get(dest).addAdjacentVertex(mp.get(source), weight);
+            getVertex(dest).addAdjacentVertex(getVertex(source), weight);
         }
 
     }
@@ -53,7 +53,7 @@ public class WeightedGraph<V>{
             return false;
         }
 
-        return mp.get(source).getAdjacentVertices().containsKey(mp.get(dest));
+        return getVertex(source).getAdjacentVertices().containsKey(getVertex(dest));
     }
 
     public Double getWeight(V source, V dest) {
@@ -61,7 +61,7 @@ public class WeightedGraph<V>{
             return Double.POSITIVE_INFINITY;
         }
 
-        return mp.get(source).getAdjacentVertices().get(mp.get(dest));
+        return mp.get(source).getAdjacentVertices().get(getVertex(dest));
     }
 
     public Iterable<V> getAdjacentVertices(V data) {
